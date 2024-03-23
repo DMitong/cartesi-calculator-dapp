@@ -10,9 +10,11 @@ async function handle_advance(data) {
   
   console.log(data["payload"])
   console.log(typeof data["payload"])
+  console.log(ethers.toUtf8String(data["payload"]).split(""))
 
   // Extract numbers and operators from payload
-  const { operand1, operand2, operator } = JSON.parse(JSON.parse(ethers.toUtf8String(data["payload"])));
+  const [ operand1, operand2, operator ] = ethers.toUtf8String(data["payload"]).split("");
+  console.log(operator);
 
   try {
     const result = calculate(operand1, operand2, operator);
