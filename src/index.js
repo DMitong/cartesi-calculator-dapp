@@ -10,14 +10,14 @@ async function handle_advance(data) {
   
   console.log(data["payload"])
   console.log(typeof data["payload"])
-  console.log(ethers.toUtf8String(data["payload"]).split(""))
+  console.log(ethers.toUtf8String(data["payload"]).split(" "))
 
   // Extract numbers and operators from payload
-  const [ operand1, operand2, operator ] = ethers.toUtf8String(data["payload"]).split("");
+  const [ operand1, operator, operand2 ] = ethers.toUtf8String(data["payload"]).split(" ");
   console.log(operator);
 
   try {
-    const result = calculate(operand1, operand2, operator);
+    const result = calculate(operand1, operator, operand2);
 
     // Send the result back (adjust endpoint as needed)
     const calculate_req = await fetch(rollup_server + "/notice", {
@@ -42,7 +42,7 @@ async function handle_inspect(data) {
   return "accept";
 }
 
-function calculate(operand1, operand2, operator) {
+function calculate(operand1, operator, operand2) {
   switch (operator) {
     case "+":
       return Number(operand1) + Number(operand2);
